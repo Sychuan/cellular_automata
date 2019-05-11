@@ -21,7 +21,7 @@ cells[:, 0] = random_start()
 configuration = np.array(
     [[1, 1, 1], [1, 1, 0], [1, 0, 1], [1, 0, 0], [0, 1, 1], [0, 1, 0], [0, 0, 1], [0, 0, 0]]
 )
-rules110 = [0, 1, 1, 0, 1, 1, 1, 0]
+
 
 
 # Convert rule to number in Wolfram notation
@@ -75,7 +75,7 @@ def automata_generate(rules, number):
     print('all finished')
 
 
-rule_numbers = np.arange(1, 256)
+rule_numbers = [73]  # np.arange(1, 256)
 
 for number in rule_numbers:
     rules = rule_from_number(number)
