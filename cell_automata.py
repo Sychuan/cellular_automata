@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-time = 250
-size = 250
+time = 500
+size = 500
 save_every_step = False
 
 # creating empty world x-axis = space size, y-axis time
@@ -11,7 +11,7 @@ cells = np.zeros((size, time), dtype=np.int32)
 
 # random starting configuration
 def random_start():
-    return np.random.randint(0, 2, size)
+    return np.random.randint(0, 3, size)
 
 
 # starting configuration
@@ -22,24 +22,31 @@ configuration = np.array(
     [[1, 1, 1], [1, 1, 0], [1, 0, 1], [1, 0, 0], [0, 1, 1], [0, 1, 0], [0, 0, 1], [0, 0, 0]]
 )
 
+configuration = np.array(
+    [[0, 0, 0], [0, 0, 1], [0, 0, 2], [0, 1, 0], [0, 1, 1], [0, 1, 2], [0, 2, 0], [0, 2, 1], [0, 2, 2],
+     [1, 0, 0], [1, 0, 1], [1, 0, 2], [1, 1, 0], [1, 1, 1], [1, 1, 2], [1, 2, 0], [1, 2, 1], [1, 2, 2], [2, 2, 2]]
+)[::-1]
 
 
 # Convert rule to number in Wolfram notation
 def rule_from_number(n):
-    rule = np.zeros(8)
+    base = 3
+    rule = np.zeros(19)
     i = -1
     while n > 1:
-        res = n % 2
-        n = n // 2
+        res = n % base
+        n = n // base
         rule[i] = res
         i -= 1
     rule[i] = n
+    print(rule)
     return rule
 
 
+
 def img_save(t, number, cells):
-    plt.figure(figsize=(5, 5), dpi=300)
-    plt.set_cmap('hot')
+    plt.figure(figsize=(4, 4), dpi=300)
+    plt.set_cmap('jet')
     ax = plt.axes([0, 0, 1, 1])
     plt.axis('off')
     ax.axes.get_xaxis().set_visible(False)
@@ -72,11 +79,12 @@ def automata_generate(rules, number):
     if not save_every_step:
         img_save(time, number, cells)
 
-    print('all finished')
+    print('finished')
 
 
-rule_numbers = [73]  # np.arange(1, 256)
+rule_numbers = [1768]  # np.arange(1, 2*3**7+2*3**6+2*3**5+2*3**4+2*3**3+2*3**2+2*3**1+2)
 
 for number in rule_numbers:
     rules = rule_from_number(number)
     automata_generate(rules, number)
+print('all finished')
